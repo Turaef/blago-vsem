@@ -1,5 +1,5 @@
 import { motion } from 'framer-motion';
-import React, { useEffect, useRef, useState, useMemo, ReactNode } from 'react';
+import React, { useEffect, useRef, useState, useMemo, ReactNode, forwardRef } from 'react';
 
 const buildKeyframes = (from: any, steps: any[]) => {
   const keys = new Set([
@@ -14,10 +14,10 @@ const buildKeyframes = (from: any, steps: any[]) => {
   return keyframes;
 };
 
-interface BlurTextProps {
+interface BlurTextProps<T extends keyof React.ReactHTML> {
   text?: string;
   children?: ReactNode;
-  as?: keyof JSX.IntrinsicElements;
+  as?: T;
   delay?: number;
   className?: string;
   animateBy?: 'words' | 'letters';
@@ -31,22 +31,27 @@ interface BlurTextProps {
   stepDuration?: number;
 }
 
-const BlurText: React.FC<BlurTextProps> = ({
-  text = '',
-  children,
-  as: Component = 'p',
-  delay = 100, // Reduced default delay for a faster feel
-  className = '',
-  animateBy = 'words',
-  direction = 'top',
-  threshold = 0.1,
-  rootMargin = '0px',
-  animationFrom,
-  animationTo,
-  easing = (t) => t,
-  onAnimationComplete,
-  stepDuration = 0.3, // Slightly faster steps
-}) => {
+const BlurTextInner = <T extends keyof React.ReactHTML = 'p'>(
+  {
+    text = '',
+    children,
+    as,
+    delay = 100,
+    className = '',
+    animateBy = 'words',
+    direction = 'top',
+    threshold = 0.1,
+    rootMargin = '0px',
+    animationFrom,
+    animationTo,
+    easing = (t) => t,
+    onAnimationComplete,
+    stepDuration = 0.3,
+  }: BlurTextProps<T>,
+  ref: React.ForwardedRef<HTMLElement>
+) => {
+  const MotionComponent = (motion as any)[as || 'p'];
+
   const content = text || children || '';
   const elements = useMemo(() => 
     typeof content === 'string' ? (animateBy === 'words' ? content.split(' ') : content.split('')) : [content],
@@ -54,22 +59,23 @@ const BlurText: React.FC<BlurTextProps> = ({
   );
   
   const [inView, setInView] = useState(false);
-  const ref = useRef<HTMLElement>(null);
+  const internalRef = useRef<HTMLElement>(null);
 
   useEffect(() => {
-    if (!ref.current) return;
+    const targetRef = (ref || internalRef) as React.RefObject<HTMLElement>;
+    if (!targetRef.current) return;
     const observer = new IntersectionObserver(
       ([entry]) => {
         if (entry.isIntersecting) {
           setInView(true);
-          observer.unobserve(ref.current!);
+          observer.unobserve(targetRef.current!);
         }
       },
       { threshold, rootMargin }
     );
-    observer.observe(ref.current);
+    observer.observe(targetRef.current);
     return () => observer.disconnect();
-  }, [threshold, rootMargin]);
+  }, [threshold, rootMargin, ref]);
 
   const defaultFrom = useMemo(
     () =>
@@ -101,8 +107,8 @@ const BlurText: React.FC<BlurTextProps> = ({
   );
 
   return (
-    <Component
-      ref={ref}
+    <MotionComponent
+      ref={ref || internalRef}
       className={className}
       style={{ display: 'flex', flexWrap: 'wrap' }}
     >
@@ -132,8 +138,12 @@ const BlurText: React.FC<BlurTextProps> = ({
           </motion.span>
         );
       })}
-    </Component>
+    </MotionComponent>
   );
 };
+
+const BlurText = forwardRef(BlurTextInner) as <T extends keyof React.ReactHTML = 'p'>(
+  props: BlurTextProps<T> & { ref?: React.ForwardedRef<HTMLElement> }
+) => React.ReactElement;
 
 export default BlurText; 

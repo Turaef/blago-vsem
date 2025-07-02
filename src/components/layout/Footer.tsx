@@ -1,6 +1,6 @@
 import React from 'react'
 import { motion } from 'framer-motion'
-import { Mail, Phone, MapPin, ArrowUp, Send, Instagram, Facebook } from 'lucide-react'
+import { Mail, Phone, ArrowUp, Send, Instagram, Facebook } from 'lucide-react'
 import { companyInfo } from '../../data/company'
 
 const Footer: React.FC = () => {

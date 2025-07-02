@@ -30,18 +30,20 @@ const ContactSection: React.FC<ContactSectionProps> = ({ id }) => {
             Есть вопросы или хотите обсудить проект? Свяжитесь с нами напрямую, и мы скоро ответим.
           </p>
           <div>
-            <motion.a
-              href={companyInfo.socials.telegram}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="inline-flex items-center justify-center gap-3 px-8 py-4 bg-card border border-border rounded-full shadow-sm text-foreground font-semibold"
-              whileHover={{ scale: 1.05, boxShadow: "0 4px 12px rgba(0,0,0,0.1)" }}
-              whileTap={{ scale: 0.95 }}
-              transition={{ duration: 0.2 }}
-            >
-              <Send size={20} />
-              <span>Написать в Telegram</span>
-            </motion.a>
+            {companyInfo.socials?.telegram && (
+              <motion.a
+                href={companyInfo.socials.telegram}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center justify-center gap-3 px-8 py-4 bg-card border border-border rounded-full shadow-sm text-foreground font-semibold"
+                whileHover={{ scale: 1.05, boxShadow: "0 4px 12px rgba(0,0,0,0.1)" }}
+                whileTap={{ scale: 0.95 }}
+                transition={{ duration: 0.2 }}
+              >
+                <Send size={20} />
+                <span>Написать в Telegram</span>
+              </motion.a>
+            )}
           </div>
         </motion.div>
       </div>

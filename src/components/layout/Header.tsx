@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
-import { Link, useLocation, useNavigate } from 'react-router-dom'
+import { useLocation, useNavigate } from 'react-router-dom'
 import { X, Sun, Moon, Menu } from 'lucide-react'
 import { companyInfo } from '../../data/company'
 import { useTheme } from '../../contexts/ThemeContext'

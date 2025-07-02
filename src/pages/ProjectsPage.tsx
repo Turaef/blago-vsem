@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { useSearchParams, Link, useNavigate } from 'react-router-dom';
+import { useSearchParams, useNavigate } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import Masonry from 'react-masonry-css';
 import { Loader2, AlertCircle, ArrowLeft } from 'lucide-react';
@@ -10,7 +10,7 @@ import ProjectModal from '../components/modals/ProjectModal';
 import { Project } from '../types';
 
 const ProjectsPage: React.FC = () => {
-  const [searchParams, setSearchParams] = useSearchParams();
+  const [searchParams] = useSearchParams();
   const [selectedProject, setSelectedProject] = useState<Project | null>(null);
   const navigate = useNavigate();
 

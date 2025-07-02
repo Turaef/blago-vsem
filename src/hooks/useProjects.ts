@@ -12,7 +12,6 @@ export const useProjects = ({ limit, category = 'all' }: ProjectsQueryOptions = 
     error,
     fetchNextPage,
     hasNextPage,
-    isFetching,
     isFetchingNextPage,
     status,
   } = useInfiniteQuery({
