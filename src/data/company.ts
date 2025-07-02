@@ -16,9 +16,9 @@ export const companyInfo: Company = {
 }
 
 export const navigationItems: NavigationItem[] = [
-  { id: 'home', label: 'Bosh sahifa', href: '#home' },
-  { id: 'about', label: 'Biz haqimizda', href: '#about' },
-  { id: 'services', label: 'Xizmatlar', href: '#services' },
-  { id: 'portfolio', label: 'Portfolio', href: '#portfolio' },
-  { id: 'contact', label: 'Aloqa', href: '#contact' }
+  { id: 'home', label: 'navigation.home', href: '#home' },
+  { id: 'about', label: 'navigation.about', href: '#about' },
+  { id: 'services', label: 'navigation.services', href: '#services' },
+  { id: 'portfolio', label: 'navigation.portfolio', href: '#portfolio' },
+  { id: 'contact', label: 'navigation.contact', href: '#contact' }
 ] 

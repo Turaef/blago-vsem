@@ -1,9 +1,13 @@
 import React from 'react'
 import { motion } from 'framer-motion'
-import { Mail, Phone, ArrowUp, Send, Instagram, Facebook } from 'lucide-react'
+import { Mail, Phone, ArrowUp, Send, Instagram, Facebook, Copyright } from 'lucide-react'
+import { useTranslation } from 'react-i18next'
 import { companyInfo } from '../../data/company'
 
 const Footer: React.FC = () => {
+  const { t } = useTranslation()
+  const currentYear = new Date().getFullYear()
+
   const scrollToTop = () => {
     window.scrollTo({ top: 0, behavior: 'smooth' })
   }
@@ -26,12 +30,12 @@ const Footer: React.FC = () => {
               <span className="text-xl font-bold text-primary">{companyInfo.name}</span>
             </div>
             <p className="text-muted-foreground max-w-md">
-              {companyInfo.slogan}
+              {t('slogan')}
             </p>
           </div>
 
           <div>
-            <h3 className="text-lg font-semibold mb-4 text-primary">Контакты</h3>
+            <h3 className="text-lg font-semibold mb-4 text-primary">{t('footer.contacts')}</h3>
             <ul className="space-y-3">
               <li className="flex items-center space-x-3">
                 <Phone size={18} className="text-primary" />
@@ -45,7 +49,7 @@ const Footer: React.FC = () => {
           </div>
 
           <div>
-            <h3 className="text-lg font-semibold mb-4 text-primary">Соц. сети</h3>
+            <h3 className="text-lg font-semibold mb-4 text-primary">{t('footer.socials')}</h3>
             <div className="flex space-x-4">
               {companyInfo.socials?.telegram && (
                 <a href={companyInfo.socials.telegram} target="_blank" rel="noopener noreferrer" className="text-muted-foreground hover:text-primary transition-colors">
@@ -68,7 +72,8 @@ const Footer: React.FC = () => {
 
         <div className="border-t border-gray-200 dark:border-gray-700 pt-8 flex flex-col sm:flex-row justify-between items-center">
           <p className="text-muted text-sm text-center sm:text-left">
-            © {new Date().getFullYear()} {companyInfo.name}. Все права защищены.
+            <Copyright size={16} className="mr-2" />
+            {t('footer.copyright', { year: currentYear, companyName: companyInfo.name })}
           </p>
           
           <motion.button

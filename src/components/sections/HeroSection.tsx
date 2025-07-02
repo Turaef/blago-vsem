@@ -4,18 +4,25 @@ import { ArrowRight } from 'lucide-react'
 import { companyInfo } from '../../data/company'
 import Counter from '../ui/Counter'
 import BlurText from '../ui/BlurText'
+import { useTranslation } from 'react-i18next'
 
 interface HeroSectionProps {
   id: string;
 }
 
 const HeroSection: React.FC<HeroSectionProps> = ({ id }) => {
+  const { t } = useTranslation();
+
   // Use the specific hero image provided by the user
   const heroImageUrl = "https://qmphisoosproujqqrqaa.supabase.co/storage/v1/object/public/gallery/8%20%283%29%20%282%29.jpg"
   
   const scrollToServices = () => {
     document.querySelector('#services')?.scrollIntoView({ behavior: 'smooth' })
   }
+
+  const handleDiscussProjectClick = () => {
+    document.getElementById('contact')?.scrollIntoView({ behavior: 'smooth' });
+  };
 
   return (
     <section id={id} className="min-h-screen flex items-center relative overflow-hidden bg-surface">
@@ -53,13 +60,13 @@ const HeroSection: React.FC<HeroSectionProps> = ({ id }) => {
 
               <div style={{ textShadow: '0 2px 15px rgba(0,0,0,0.4)' }}>
                 <BlurText as="h1" className="text-4xl md:text-6xl lg:text-7xl font-bold text-white mb-6 leading-tight tracking-tighter">
-                  Строим ваше будущее.
+                  {t('hero_section.main_title_1')} {t('hero_section.main_title_2')} {t('hero_section.main_title_3')} {t('hero_section.main_title_4')}
                 </BlurText>
               </div>
 
               <div style={{ textShadow: '0 2px 10px rgba(0,0,0,0.4)' }}>
                 <BlurText as="p" className="text-lg md:text-xl text-white/90 mb-10 leading-relaxed" delay={50}>
-                  {companyInfo.slogan}
+                  {t('hero_section.subtitle')}
                 </BlurText>
               </div>
 
@@ -70,13 +77,13 @@ const HeroSection: React.FC<HeroSectionProps> = ({ id }) => {
                 transition={{ duration: 0.6, delay: 0.8 }}
               >
                 <motion.button
-                  onClick={scrollToServices}
+                  onClick={handleDiscussProjectClick}
                   whileHover={{ scale: 1.05 }}
                   whileTap={{ scale: 0.95 }}
                   className="bg-white text-gray-900 hover:bg-gray-100 px-8 py-4 rounded-full font-semibold group inline-flex items-center space-x-2 transition-all duration-300 shadow-lg hover:shadow-xl"
                   style={{ boxShadow: '0 4px 20px rgba(0,0,0,0.3)' }}
                 >
-                  <span>Наши услуги</span>
+                  <span>{t('hero_section.cta_button')}</span>
                   <ArrowRight 
                     size={20} 
                     className="transition-transform duration-300 group-hover:translate-x-1" 

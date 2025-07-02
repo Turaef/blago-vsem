@@ -1,10 +1,12 @@
 import React, { useState, useEffect } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { useLocation, useNavigate } from 'react-router-dom'
+import { useTranslation } from 'react-i18next';
 import { X, Sun, Moon, Menu } from 'lucide-react'
 import { companyInfo } from '../../data/company'
 import { useTheme } from '../../contexts/ThemeContext'
 import { useHeaderStyles } from '../../hooks/useHeaderStyles'
+import LanguageSwitcher from '../ui/LanguageSwitcher'
 
 interface Section {
   id: string;
@@ -18,6 +20,7 @@ interface HeaderProps {
 
 const Header: React.FC<HeaderProps> = ({ sections }) => {
   const [isMenuOpen, setIsMenuOpen] = useState(false)
+  const { t } = useTranslation();
   const { theme, toggleTheme } = useTheme()
   const location = useLocation()
   const navigate = useNavigate()
@@ -91,7 +94,7 @@ const Header: React.FC<HeaderProps> = ({ sections }) => {
 
     const linkContent = (
       <span className={`text-sm font-medium transition-colors relative ${textColorClass}`}>
-        {item.label}
+        {t(item.label)}
         {isActive && (
           <motion.div
             className={`absolute -bottom-2 left-0 right-0 h-0.5 ${isScrolled || !onHomePage ? 'bg-primary' : 'bg-white'}`}
@@ -115,7 +118,7 @@ const Header: React.FC<HeaderProps> = ({ sections }) => {
     
     const linkContent = (
        <span className={`block text-3xl font-medium py-2 transition-colors duration-300 ${isActive ? 'text-primary' : 'text-foreground hover:text-primary'}`}>
-          {item.label}
+          {t(item.label)}
         </span>
     );
 
@@ -186,7 +189,10 @@ const Header: React.FC<HeaderProps> = ({ sections }) => {
                   ))}
                 </ul>
               </nav>
-              <ThemeToggle />
+              <div className="flex items-center space-x-2">
+                <LanguageSwitcher />
+                <ThemeToggle />
+              </div>
             </div>
 
             <div className="md:hidden">
@@ -237,8 +243,8 @@ const Header: React.FC<HeaderProps> = ({ sections }) => {
                     ))}
                   </ul>
                 </nav>
-                <div className="mt-12 text-center">
-                  <ThemeToggle />
+                <div className="mt-12 flex justify-center items-center space-x-4">
+                  <LanguageSwitcher />
                 </div>
               </div>
             </motion.div>

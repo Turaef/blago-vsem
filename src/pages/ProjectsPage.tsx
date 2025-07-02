@@ -1,147 +1,118 @@
-import React, { useState } from 'react';
-import { useSearchParams, useNavigate } from 'react-router-dom';
-import { motion, AnimatePresence } from 'framer-motion';
-import Masonry from 'react-masonry-css';
-import { Loader2, AlertCircle, ArrowLeft } from 'lucide-react';
-import { useProjects } from '../hooks/useProjects';
-import PageHeader from '../components/layout/PageHeader';
+import React from 'react';
+import { useInfiniteQuery } from '@tanstack/react-query';
+import { useNavigate } from 'react-router-dom';
+import { motion } from 'framer-motion';
+import { ArrowLeft, Loader2, ServerCrash, Inbox } from 'lucide-react';
+import { useTranslation } from 'react-i18next';
+import { getProjects } from '../services/projectsService';
 import ProjectCard from '../components/ui/ProjectCard';
-import ProjectModal from '../components/modals/ProjectModal';
-import { Project } from '../types';
 
 const ProjectsPage: React.FC = () => {
-  const [searchParams] = useSearchParams();
-  const [selectedProject, setSelectedProject] = useState<Project | null>(null);
+  const { t } = useTranslation();
   const navigate = useNavigate();
 
   const {
-    projects,
-    isLoading,
-    error,
+    data,
     fetchNextPage,
     hasNextPage,
-    isFetchingNextPage
-  } = useProjects({ limit: 20 });
-
-  const breakpointColumnsObj = {
-    default: 4,
-    1280: 3,
-    768: 2,
-    500: 1
-  };
-
-  const containerVariants = {
-    hidden: { opacity: 0 },
-    visible: {
-      opacity: 1,
-      transition: {
-        staggerChildren: 0.05,
-      },
+    isFetchingNextPage,
+    isLoading,
+    isError,
+  } = useInfiniteQuery({
+    queryKey: ['projects'],
+    queryFn: ({ pageParam = 0 }) => getProjects({ pageParam, limit: 8 }),
+    getNextPageParam: (lastPage, allPages) => {
+      const moreProjectsExist = lastPage.length === 8;
+      if (!moreProjectsExist) return undefined;
+      return allPages.length;
     },
-  };
+    initialPageParam: 0,
+  });
 
-  const itemVariants = {
-    hidden: { y: 20, opacity: 0 },
-    visible: { y: 0, opacity: 1 },
-    exit: { y: 20, opacity: 0 },
+  const projects = data?.pages.flatMap(page => page) ?? [];
+
+  const renderContent = () => {
+    if (isLoading) {
+      return (
+        <div className="flex justify-center items-center h-64">
+          <Loader2 className="animate-spin h-12 w-12 text-primary" />
+          <p className="ml-4 text-lg text-muted-foreground">{t('projects_page.loading')}</p>
+        </div>
+      );
+    }
+
+    if (isError) {
+      return (
+        <div className="text-center h-64 flex flex-col justify-center items-center">
+          <ServerCrash className="h-16 w-16 text-destructive mb-4" />
+          <h2 className="text-2xl font-bold text-destructive">{t('projects_page.error_title')}</h2>
+        </div>
+      );
+    }
+
+    if (projects.length === 0) {
+      return (
+        <div className="text-center h-64 flex flex-col justify-center items-center">
+          <Inbox className="h-16 w-16 text-muted-foreground mb-4" />
+          <h2 className="text-2xl font-bold">{t('projects_page.not_found_title')}</h2>
+          <p className="text-muted-foreground mt-2">{t('projects_page.not_found_subtitle')}</p>
+        </div>
+      );
+    }
+
+    return (
+      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+        {projects.map((project, index) => (
+          <motion.div
+            key={project.id}
+            initial={{ opacity: 0, y: 50 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5, delay: index * 0.05 }}
+          >
+            <ProjectCard
+              id={project.id}
+              title={project.title!}
+              imageUrl={project.image_url}
+            />
+          </motion.div>
+        ))}
+      </div>
+    );
   };
 
   return (
-    <>
-      <div className="bg-background dark:bg-gray-900/50 section-padding min-h-screen pt-28">
-        <div className="container mx-auto px-4">
-          {/* Back Button - Mobile Only */}
-          <motion.button
-            onClick={() => navigate(-1)}
-            initial={{ opacity: 0, x: -20 }}
-            animate={{ opacity: 1, x: 0 }}
-            transition={{ duration: 0.5, ease: 'easeInOut' }}
-            whileHover={{ scale: 1.05, backgroundColor: 'hsl(var(--muted))' }}
-            whileTap={{ scale: 0.95 }}
-            className="md:hidden absolute top-28 left-4 z-10 flex items-center justify-center w-10 h-10 bg-surface/80 backdrop-blur-sm rounded-full shadow-md"
-            aria-label="Go back"
-          >
-            <ArrowLeft className="w-5 h-5 text-foreground" />
-          </motion.button>
-          
-          <div className="relative">
-            <PageHeader title="Наши проекты" />
-          </div>
-          
-          {isLoading && !projects.length ? (
-            <div className="text-center py-12">
-              <Loader2 className="mx-auto h-12 w-12 animate-spin text-primary" />
-              <p className="mt-4 text-muted-foreground">Загружаем проекты...</p>
-            </div>
-          ) : error ? (
-            <div className="text-center py-12 text-destructive bg-red-50 dark:bg-red-900/20 rounded-lg p-8">
-              <AlertCircle className="mx-auto h-12 w-12" />
-              <p className="mt-4 font-semibold">Не удалось загрузить проекты</p>
-              <p className="text-sm text-muted-foreground">{error.message}</p>
-            </div>
-          ) : !projects.length ? (
-            <div className="text-center py-12">
-              <h2 className="text-2xl font-bold">Проекты не найдены</h2>
-              <p className="mt-2 text-muted-foreground">
-                В данный момент нет доступных проектов. Пожалуйста, зайдите позже.
-              </p>
-            </div>
-          ) : (
-            <AnimatePresence mode="wait">
-              <motion.div
-                key={searchParams.get('category') || 'all'}
-                variants={containerVariants}
-                initial="hidden"
-                animate="visible"
-                exit="hidden"
-              >
-                <Masonry
-                  breakpointCols={breakpointColumnsObj}
-                  className="flex w-auto -ml-4"
-                  columnClassName="bg-clip-padding pl-4"
-                >
-                  {projects.map((project, index) => (
-                    <motion.div 
-                      key={`${project.id}-${index}`}
-                      variants={itemVariants}
-                    >
-                        <ProjectCard
-                          id={project.id}
-                          title={project.title!}
-                          imageUrl={project.image_url}
-                          onClick={() => setSelectedProject(project)}
-                        />
-                    </motion.div>
-                  ))}
-                </Masonry>
-              </motion.div>
-            </AnimatePresence>
-          )}
+    <div className="bg-background min-h-screen">
+      <div className="container py-24 sm:py-32">
+        <header className="mb-12">
+          <button onClick={() => navigate(-1)} className="flex items-center text-sm font-medium text-muted-foreground hover:text-primary transition-colors mb-6">
+            <ArrowLeft size={16} className="mr-2" />
+            {t('projects_page.go_back')}
+          </button>
+          <h1 className="text-4xl md:text-5xl font-bold tracking-tight text-foreground">{t('projects_page.title')}</h1>
+        </header>
 
-          {hasNextPage && (
-            <div className="mt-12 text-center">
-              <motion.button
-                onClick={() => fetchNextPage()}
-                disabled={isFetchingNextPage}
-                className="bg-primary text-primary-foreground hover:bg-primary/90 px-8 py-3 rounded-full font-semibold inline-flex items-center"
-                whileHover={{ scale: 1.05 }}
-                whileTap={{ scale: 0.95 }}
-              >
-                {isFetchingNextPage ? (
-                  <>
-                    <Loader2 className="mr-2 h-5 w-5 animate-spin" />
-                    Загрузка...
-                  </>
-                ) : (
-                  'Показать еще'
-                )}
-              </motion.button>
-            </div>
-          )}
-        </div>
+        {renderContent()}
+
+        {hasNextPage && (
+          <div className="text-center mt-12">
+            <button
+              onClick={() => fetchNextPage()}
+              disabled={isFetchingNextPage}
+              className="bg-primary text-primary-foreground font-semibold px-6 py-3 rounded-full flex items-center justify-center mx-auto transition-colors hover:bg-primary/90 disabled:bg-muted disabled:text-muted-foreground"
+            >
+              {isFetchingNextPage ? (
+                <>
+                  <Loader2 className="animate-spin h-5 w-5 mr-2" />
+                  {t('projects_page.loading_more')}
+                </>
+              ) : (
+                t('projects_page.load_more')
+              )}
+            </button>
+          </div>
+        )}
       </div>
-      <ProjectModal project={selectedProject} onClose={() => setSelectedProject(null)} />
-    </>
+    </div>
   );
 };
 

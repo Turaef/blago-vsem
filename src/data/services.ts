@@ -3,121 +3,121 @@ import { Service } from '../types'
 export const services: Service[] = [
   {
     id: 'consulting',
-    title: 'Консалтинговые услуги',
+    title: 'services.consulting.title',
     items: [
-      'Сопровождение документов ПСД',
-      'Авторский надзор'
+      'services.consulting.item1',
+      'services.consulting.item2'
     ]
   },
   {
     id: 'cadastre',
-    title: 'Кадастр',
+    title: 'services.cadastre.title',
     items: [
-      'Индивидуального жилого дома',
-      'Проведение инвентаризационных работ',
-      'Консультации по кадастру'
+      'services.cadastre.item1',
+      'services.cadastre.item2',
+      'services.cadastre.item3'
     ]
   },
   {
     id: '3d-design',
-    title: '3D Дизайн',
+    title: 'services.3d_design.title',
     items: [
-      'Интерьер (наружный дизайн здания)',
-      'Экстерьер (внутренний дизайн помещения)'
+      'services.3d_design.item1',
+      'services.3d_design.item2'
     ]
   },
   {
     id: 'architecture',
-    title: 'Архитектурное проектирование частных домов',
+    title: 'services.architecture.title',
     items: [
-      'Документация',
-      'Расчет стоимости работ и подписание договора',
-      'Замер проекта',
-      'Генеральный план',
-      'Идея фасадной части',
-      'Дизайн экстерьера',
-      'Чертежи для строительства коробки дома'
+      'services.architecture.item1',
+      'services.architecture.item2',
+      'services.architecture.item3',
+      'services.architecture.item4',
+      'services.architecture.item5',
+      'services.architecture.item6',
+      'services.architecture.item7'
     ]
   },
   {
     id: 'non-residential',
-    title: 'Нежилые объекты типа',
+    title: 'services.non_residential.title',
     items: [
-      'Торговые',
-      'Офисные',
-      'Складские',
-      'Общепит',
-      'Спортивные',
-      'Производственные',
-      'Коммунально-бытовые',
-      'Медицинские',
-      'Образовательные',
-      'Административные',
-      'Свободного назначения'
+      'services.non_residential.item1',
+      'services.non_residential.item2',
+      'services.non_residential.item3',
+      'services.non_residential.item4',
+      'services.non_residential.item5',
+      'services.non_residential.item6',
+      'services.non_residential.item7',
+      'services.non_residential.item8',
+      'services.non_residential.item9',
+      'services.non_residential.item10',
+      'services.non_residential.item11'
     ]
   },
   {
     id: 'expertise',
-    title: 'Экспертиза',
+    title: 'services.expertise.title',
     items: [
-      'Частная экспертиза с проведением реестра Shaffof',
-      'Государственная экспертиза'
+      'services.expertise.item1',
+      'services.expertise.item2'
     ]
   },
   {
     id: 'surveying',
-    title: 'Топосёмка',
+    title: 'services.surveying.title',
     items: [
-      'Жилые участки',
-      'Нежилые участки'
+      'services.surveying.item1',
+      'services.surveying.item2'
     ]
   },
   {
     id: 'geodesy',
-    title: 'Геодезия',
+    title: 'services.geodesy.title',
     items: [
-      'Определение уровня плоскости грунта',
-      'Обозначение точки двора (ноль)',
-      'Определение угла здания 90 градусов',
-      'Определение подземных коммуникаций'
+      'services.geodesy.item1',
+      'services.geodesy.item2',
+      'services.geodesy.item3',
+      'services.geodesy.item4'
     ]
   },
   {
     id: 'laboratory',
-    title: 'Лаборатория',
+    title: 'services.laboratory.title',
     items: [
-      'Проверка прочности бетона'
+      'services.laboratory.item1'
     ]
   },
   {
     id: 'inspection',
-    title: 'Тех обследование зданий и сооружений',
+    title: 'services.inspection.title',
     items: []
   },
   {
     id: 'accounting',
-    title: 'Бухгалтерия',
+    title: 'services.accounting.title',
     items: []
   },
   {
     id: 'notary',
-    title: 'Нотариус',
+    title: 'services.notary.title',
     items: [
-      'Доверенность',
-      'Договоры',
-      'Завещания',
-      'Наследование',
-      'Заявления',
-      'Подтверждение других видов договоров и фактов',
-      'Другие нотариальные действия',
-      'Юридические консультации'
+      'services.notary.item1',
+      'services.notary.item2',
+      'services.notary.item3',
+      'services.notary.item4',
+      'services.notary.item5',
+      'services.notary.item6',
+      'services.notary.item7',
+      'services.notary.item8'
     ]
   },
   {
     id: 'construction',
-    title: 'Строительство',
+    title: 'services.construction.title',
     items: [
-      'Сдача объекта под ключ'
+      'services.construction.item1'
     ]
   }
 ] 

@@ -1,13 +1,17 @@
 import React from 'react';
 import { motion } from 'framer-motion';
 import { Link } from 'react-router-dom';
-import { AlertCircle, Loader2 } from 'lucide-react';
+import { AlertCircle, Loader2, ArrowRight } from 'lucide-react';
 import { useProjects } from '../../hooks/useProjects';
 import PageHeader from '../layout/PageHeader';
 import ProjectCard from '../ui/ProjectCard';
 import { Project } from '../../types';
+import { useNavigate } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
 
 const PortfolioSection: React.FC<{ id: string; onProjectClick: (project: Project) => void; }> = ({ id, onProjectClick }) => {
+  const { t } = useTranslation();
+  const navigate = useNavigate();
   const { 
     projects, 
     isLoading, 
@@ -32,8 +36,8 @@ const PortfolioSection: React.FC<{ id: string; onProjectClick: (project: Project
   return (
     <section id={id} className="bg-background dark:bg-gray-900/50 section-padding border-b dark:border-gray-800">
       <PageHeader 
-        title="Наши проекты"
-        subtitle="Взгляните на некоторые из наших последних работ, демонстрирующих наше мастерство, инновации и внимание к деталям."
+        title={t('portfolio_section.title')}
+        subtitle={t('portfolio_section.subtitle')}
       />
       
       {isLoading && (
@@ -80,12 +84,15 @@ const PortfolioSection: React.FC<{ id: string; onProjectClick: (project: Project
           </motion.div>
 
           <div className="mt-16 text-center">
-            <Link 
-              to="/projects" 
-              className="bg-primary text-primary-foreground hover:bg-primary/90 px-8 py-4 rounded-full font-semibold inline-flex items-center transition-transform duration-300 hover:scale-105"
+            <motion.button
+              onClick={() => navigate('/projects')}
+              className="bg-primary text-primary-foreground font-semibold px-8 py-3 rounded-full inline-flex items-center space-x-2 transition-colors hover:bg-primary/90"
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
             >
-              Посмотреть все проекты
-            </Link>
+              <span>{t('portfolio_section.cta_button')}</span>
+              <ArrowRight size={20} />
+            </motion.button>
           </div>
         </>
       )}

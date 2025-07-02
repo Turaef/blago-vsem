@@ -5,12 +5,14 @@ import { companyInfo } from '../../data/company'
 import PageHeader from '../layout/PageHeader'
 import Counter from '../ui/Counter'
 import BlurText from '../ui/BlurText'
+import { useTranslation } from 'react-i18next'
 
 interface AboutSectionProps {
   id: string;
 }
 
 const AboutSection: React.FC<AboutSectionProps> = ({ id }) => {
+  const { t } = useTranslation();
 
   const features = [
     { icon: <Award className="w-6 h-6" />, title: "Гарантия качества", description: "Высокие стандарты на каждом этапе." },
@@ -19,9 +21,27 @@ const AboutSection: React.FC<AboutSectionProps> = ({ id }) => {
     { icon: <Users className="w-6 h-6" />, title: "Команда экспертов", description: "Квалифицированные специалисты." },
   ];
 
+  const stats = [
+    { 
+      icon: <Briefcase size={40} className="text-primary" />,
+      value: companyInfo.yearsOfExperience,
+      label: t('about_section.years_experience') 
+    },
+    { 
+      icon: <Users size={40} className="text-primary" />,
+      value: companyInfo.completedProjects, 
+      label: t('about_section.completed_projects')
+    },
+    { 
+      icon: <Map size={40} className="text-primary" />,
+      value: companyInfo.regionsServed, 
+      label: t('about_section.regions_served')
+    }
+  ];
+
   return (
     <section id={id} className="bg-surface section-padding border-b">
-      <PageHeader title="О нас" />
+      <PageHeader title={t('about_section.title')} subtitle={t('about_section.subtitle')} />
       <div className="container">
         <div>
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center mb-16">
@@ -88,6 +108,23 @@ const AboutSection: React.FC<AboutSectionProps> = ({ id }) => {
               Полностью удовлетворять потребности каждого клиента, способствуя развитию строительной отрасли и создавая устойчивую инфраструктуру для будущих поколений.
             </BlurText>
           </div>
+        </div>
+
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-8 text-center mt-20">
+          {stats.map((stat, index) => (
+            <motion.div
+              key={index}
+              className="bg-card p-8 rounded-xl shadow-lg hover:shadow-2xl transition-shadow duration-300"
+              initial={{ opacity: 0, y: 50 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, amount: 0.5 }}
+              transition={{ duration: 0.5, delay: index * 0.15 }}
+            >
+              <div className="flex justify-center mb-4">{stat.icon}</div>
+              <Counter to={stat.value} duration={2.5} />
+              <p className="text-muted-foreground mt-2">{stat.label}</p>
+            </motion.div>
+          ))}
         </div>
       </div>
     </section>
