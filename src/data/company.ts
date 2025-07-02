@@ -7,12 +7,11 @@ export const companyInfo: Company = {
   completedProjects: 500,
   regionsServed: 12,
   email: 'sultanovi98@mail.ru',
-  phone: '+998 90 123 45 67',
+  phone: '+998909979060',
   address: 'Tashkent, Uzbekistan',
   socials: {
-    telegram: 'https://t.me/example',
-    instagram: 'https://instagram.com/example',
-    facebook: 'https://facebook.com/blagovsem'
+    telegram: 'https://t.me/Isroil_Ali_Sultanov',
+    instagram: 'https://www.instagram.com/ali__shoshiy?igsh=OWFzOTZoOHhiYTJ5',
   }
 }
 
