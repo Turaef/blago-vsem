@@ -1,0 +1,260 @@
+@import url('https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --background: 48 20% 98%; /* Light Cream - #FCFBF4 */
+    --foreground: 60 4% 17%; /* Dark Charcoal - #2C2C27 */
+
+    --card: 48 20% 98%;
+    --card-foreground: 60 4% 17%;
+
+    --popover: 48 20% 98%;
+    --popover-foreground: 60 4% 17%;
+
+    --primary: 70 15% 25%; /* Muted Olive - #484d3d - Matched to furniture */
+    --primary-foreground: 51 35% 88%; /* Light Tana - #E2DECA */
+
+    --secondary: 50 15% 91%;
+    --secondary-foreground: 70 15% 25%;
+
+    --muted: 51 25% 80%; /* Tana - #DAD7B6 */
+    --muted-foreground: 60 12% 33%; /* Darker Tana text */
+    
+    --accent: 50 15% 91%;
+    --accent-foreground: 70 15% 25%;
+
+    --destructive: 0 84% 60%;
+    --destructive-foreground: 0 0% 98%;
+
+    --border: 50 10% 85%; /* Lighter version of Tana */
+    --input: 50 10% 85%;
+    --ring: 70 15% 25%;
+
+    --radius: 0.75rem;
+
+    /* Custom semantic colors */
+    --surface: 48 20% 98%;
+    --surface-secondary: 51 25% 80%;
+  }
+
+  .dark {
+    --background: 60 4% 10%; /* Dark Charcoal for dark bg */
+    --foreground: 51 25% 80%; /* Tana for dark text */
+    
+    --card: 60 4% 10%;
+    --card-foreground: 51 25% 80%;
+
+    --popover: 60 4% 10%;
+    --popover-foreground: 51 25% 80%;
+
+    --primary: 51 25% 80%; /* Tana for dark primary */
+    --primary-foreground: 70 15% 25%; /* Muted Olive for dark primary text */
+
+    --secondary: 60 4% 15%;
+    --secondary-foreground: 51 25% 80%;
+
+    --muted: 60 4% 15%;
+    --muted-foreground: 51 25% 75%;
+
+    --accent: 60 4% 15%;
+    --accent-foreground: 51 25% 80%;
+
+    --destructive: 0 63% 31%;
+    --destructive-foreground: 0 0% 98%;
+
+    --border: 60 4% 18%;
+    --input: 60 4% 18%;
+    --ring: 51 25% 80%;
+
+    /* Custom semantic colors */
+    --surface: 60 4% 10%;
+    --surface-secondary: 60 4% 15%;
+  }
+
+  html {
+    scroll-behavior: smooth;
+    /* Global theme transition for smooth dark mode switching */
+    transition: color 300ms ease-in-out, background-color 300ms ease-in-out;
+  }
+  
+  body {
+    font-family: 'Manrope', system-ui, sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    /* Smooth theme transitions on body */
+    transition: color 300ms ease-in-out, background-color 300ms ease-in-out;
+    @apply bg-background text-foreground;
+  }
+  
+  /* Global theme transition for all elements */
+  * {
+    @apply border-border;
+    transition: color 300ms ease-in-out, 
+                background-color 300ms ease-in-out, 
+                border-color 300ms ease-in-out,
+                box-shadow 300ms ease-in-out,
+                opacity 300ms ease-in-out;
+  }
+  
+  /* Prevent transition flicker on page load */
+  .no-transition * {
+    transition: none !important;
+  }
+  
+  /* Root theme variables for consistent theming */
+  :root {
+    --transition-theme: 300ms ease-in-out;
+  }
+  
+  /* Custom scrollbar with dark mode support */
+  ::-webkit-scrollbar {
+    width: 8px;
+  }
+  
+  ::-webkit-scrollbar-track {
+    @apply bg-surface-secondary;
+    transition: background-color var(--transition-theme);
+  }
+  
+  ::-webkit-scrollbar-thumb {
+    @apply bg-muted rounded-full;
+    transition: background-color var(--transition-theme);
+  }
+  
+  ::-webkit-scrollbar-thumb:hover {
+    @apply bg-muted-foreground/50;
+  }
+  
+  /* Selection colors for dark mode */
+  ::selection {
+    @apply bg-primary/20 dark:bg-primary-foreground/30;
+  }
+}
+
+@layer components {
+  .container {
+    @apply max-w-[1200px] mx-auto px-4 sm:px-6 lg:px-8;
+  }
+  
+  .section-padding {
+    @apply py-16 md:py-24 lg:py-28;
+  }
+  
+  .btn-primary {
+    @apply bg-primary text-primary-foreground hover:bg-primary/90 font-medium px-6 py-3 rounded-md transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 focus:ring-offset-background;
+  }
+  
+  .btn-secondary {
+    @apply bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600 hover:bg-gray-50 dark:hover:bg-gray-700 text-gray-700 dark:text-gray-300 font-medium px-6 py-3 rounded-lg transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-primary-500 dark:focus:ring-primary-400 focus:ring-offset-2 dark:focus:ring-offset-gray-800;
+  }
+  
+  .card {
+    @apply bg-white dark:bg-gray-800 rounded-xl shadow-lg dark:shadow-2xl dark:shadow-black/20 border border-gray-200 dark:border-gray-700 p-6 transition-all duration-300;
+  }
+  
+  .card-hover {
+    @apply transition-all duration-300 hover:shadow-xl hover:-translate-y-1;
+  }
+  
+  /* Theme-aware text classes */
+  .text-primary {
+    @apply text-gray-900 dark:text-gray-100;
+  }
+  
+  .text-secondary {
+    @apply text-gray-600 dark:text-gray-400;
+  }
+  
+  .text-muted {
+    @apply text-gray-500 dark:text-gray-500;
+  }
+  
+  /* Theme-aware background classes */
+  .bg-surface {
+    @apply bg-white dark:bg-gray-900;
+  }
+  
+  .bg-surface-secondary {
+    @apply bg-gray-50 dark:bg-gray-800;
+  }
+  
+  /* Glassmorphism effects for dark mode */
+  .glass {
+    @apply backdrop-blur-md bg-white/10 dark:bg-gray-900/10 border border-white/20 dark:border-gray-700/20;
+  }
+  
+  .glass-strong {
+    @apply backdrop-blur-lg bg-white/20 dark:bg-gray-900/20 border border-white/30 dark:border-gray-700/30;
+  }
+
+  .input-field {
+    @apply w-full bg-background border border-input rounded-md px-4 py-3 text-base text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 focus:ring-offset-surface-secondary transition-shadow;
+  }
+}
+
+@layer utilities {
+  .text-gradient {
+    @apply bg-gradient-to-r from-primary-600 to-primary-800 dark:from-primary-400 dark:to-primary-600 bg-clip-text text-transparent;
+  }
+  
+  .bg-gradient-soft {
+    @apply bg-gradient-to-br from-primary-50 via-white to-primary-100 dark:from-gray-900 dark:via-gray-800 dark:to-gray-900;
+  }
+  
+  .bg-gradient-soft-dark {
+    @apply bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900;
+  }
+  
+  /* Enhanced gradients for dark mode */
+  .bg-gradient-hero {
+    @apply bg-gradient-to-br from-blue-600 via-purple-600 to-blue-800 dark:from-blue-800 dark:via-purple-800 dark:to-blue-900;
+  }
+  
+  .bg-gradient-card {
+    @apply bg-gradient-to-br from-white to-gray-50 dark:from-gray-800 dark:to-gray-900;
+  }
+  
+  .scrollbar-hide {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+  
+  .scrollbar-hide::-webkit-scrollbar {
+    display: none;
+  }
+  
+  /* Smooth transforms */
+  .transform-gpu {
+    transform: translateZ(0);
+    will-change: transform;
+  }
+  
+  /* Theme transition utilities */
+  .transition-theme {
+    transition: color var(--transition-theme), 
+                background-color var(--transition-theme), 
+                border-color var(--transition-theme),
+                box-shadow var(--transition-theme);
+  }
+}
+
+.my-masonry-grid {
+  display: -webkit-box; /* Not needed if autoprefixing */
+  display: -ms-flexbox; /* Not needed if autoprefixing */
+  display: flex;
+  margin-left: -16px; /* gutter size offset */
+  width: auto;
+}
+.my-masonry-grid_column {
+  padding-left: 16px; /* gutter size */
+  background-clip: padding-box;
+}
+
+/* Style your items */
+.my-masonry-grid_column > div { /* change div to reference your elements */
+  margin-bottom: 16px;
+} 
