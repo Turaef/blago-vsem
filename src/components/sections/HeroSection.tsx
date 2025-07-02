@@ -16,16 +16,12 @@ const HeroSection: React.FC<HeroSectionProps> = ({ id }) => {
   // Use the specific hero image provided by the user
   const heroImageUrl = "https://qmphisoosproujqqrqaa.supabase.co/storage/v1/object/public/gallery/8%20%283%29%20%282%29.jpg"
   
-  const scrollToServices = () => {
-    document.querySelector('#services')?.scrollIntoView({ behavior: 'smooth' })
-  }
-
   const handleDiscussProjectClick = () => {
     document.getElementById('contact')?.scrollIntoView({ behavior: 'smooth' });
   };
 
   return (
-    <section id={id} className="min-h-screen flex items-center relative overflow-hidden bg-surface">
+    <section id={id} className="relative h-screen flex items-center justify-center text-white overflow-hidden">
       {/* Static Background Image from Supabase */}
       <motion.div 
         initial={{ opacity: 0, scale: 1.1 }}

@@ -1,11 +1,12 @@
 import React from 'react';
 import { motion } from 'framer-motion';
+import { Image, Eye } from 'lucide-react';
 
 interface ProjectCardProps {
   id: string;
-  imageUrl: string;
+  imageUrl: string | null;
   title: string;
-  onClick: () => void;
+  onClick?: () => void;
 }
 
 const ProjectCard: React.FC<ProjectCardProps> = ({ id, imageUrl, title, onClick }) => {

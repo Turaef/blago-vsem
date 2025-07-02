@@ -1,8 +1,7 @@
 import React from 'react';
 import { motion } from 'framer-motion';
-import { Link } from 'react-router-dom';
-import { AlertCircle, Loader2, ArrowRight } from 'lucide-react';
-import { useProjects } from '../../hooks/useProjects';
+import { ArrowRight } from 'lucide-react';
+import { useProjects } from '../hooks/useProjects';
 import PageHeader from '../layout/PageHeader';
 import ProjectCard from '../ui/ProjectCard';
 import { Project } from '../../types';

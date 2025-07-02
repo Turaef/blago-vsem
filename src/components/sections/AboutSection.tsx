@@ -1,6 +1,6 @@
 import React from 'react'
 import { motion } from 'framer-motion'
-import { Award, Target, Shield, Users } from 'lucide-react'
+import { Award, Target, Shield, Users, Briefcase, Map } from 'lucide-react'
 import { companyInfo } from '../../data/company'
 import PageHeader from '../layout/PageHeader'
 import Counter from '../ui/Counter'
@@ -121,7 +121,7 @@ const AboutSection: React.FC<AboutSectionProps> = ({ id }) => {
               transition={{ duration: 0.5, delay: index * 0.15 }}
             >
               <div className="flex justify-center mb-4">{stat.icon}</div>
-              <Counter to={stat.value} duration={2.5} />
+              <Counter value={stat.value} />
               <p className="text-muted-foreground mt-2">{stat.label}</p>
             </motion.div>
           ))}
